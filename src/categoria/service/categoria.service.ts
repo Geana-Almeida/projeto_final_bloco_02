@@ -33,7 +33,7 @@ export class CategoriaService{
         })
 
         if(!buscaCategoria){
-            throw new HttpException('Teste', HttpStatus.NOT_FOUND)
+            throw new HttpException('Categoria não encontrada', HttpStatus.NOT_FOUND)
         }
 
         return buscaCategoria;

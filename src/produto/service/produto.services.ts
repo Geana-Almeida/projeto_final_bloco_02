@@ -36,8 +36,9 @@ export class ProdutoService {
             }
         })
 
+        
         if(!buscaProduto){
-            throw new HttpException("Produto não encontrado!", HttpStatus.NOT_FOUND);
+            throw new HttpException("Produto não encontrados!", HttpStatus.NOT_FOUND);
         }
 
         return buscaProduto;
@@ -59,11 +60,11 @@ export class ProdutoService {
     }
 
     async update(produto: Produto): Promise<Produto>{
-        let buscaProduto = await this.findById(produto.id);
+        let updateProduto: Produto = await this.findById(produto.id);
+        let buscaCategoria = await this.categoriaService.findById(produto.categoria.id);
 
-        if(!buscaProduto || !produto.categoria.id){
-            throw new HttpException("Produto não encontrado!", HttpStatus.NOT_FOUND)
-        }
+        if (!updateProduto || !buscaCategoria)
+            throw new HttpException('Usuário ou categoria não encontrado!', HttpStatus.NOT_FOUND);
 
         return await this.produtoRepository.save(produto);
     }

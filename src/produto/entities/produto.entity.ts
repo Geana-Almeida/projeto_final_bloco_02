@@ -2,11 +2,12 @@ import { IsNotEmpty, IsNumber } from "class-validator";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Categoria } from "../../categoria/entities/categoria.entity";
 import { Transform, TransformFnParams } from "class-transformer";
+import { Usuario } from "../../usuario/entities/usuario.entity";
 
 @Entity({name: "tb_produtos"})
 export class Produto{
 
-    @PrimaryGeneratedColumn({type: 'bigint'})
+    @PrimaryGeneratedColumn()
     id: number
 
     @Transform(({ value }: TransformFnParams) => value?.trim())
@@ -26,5 +27,10 @@ export class Produto{
         onDelete: "CASCADE"
     })
     categoria: Categoria;
+
+    @ManyToOne(() => Usuario, (usuario) => usuario.produto, {
+        onDelete: "CASCADE"
+    })
+    usuario: Usuario;
 
 }
